@@ -8,6 +8,11 @@ class LedgerHomeScreen extends StatefulWidget {
 class _LedgerHomeScreenState extends State<LedgerHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      backgroundColor: Colors.teal,
+      body: Center(
+        child: Text("user is signed"),
+      ),
+    );
   }
 }

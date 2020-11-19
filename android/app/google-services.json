@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "252649280239",
+    "firebase_url": "https://ledgerapp-34e8e.firebaseio.com",
+    "project_id": "ledgerapp-34e8e",
+    "storage_bucket": "ledgerapp-34e8e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252649280239:android:21e1a2daf6296a03c9411a",
+        "android_client_info": {
+          "package_name": "vip.hari.ledgerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "252649280239-iii7nqai7koqmlsv2mvh20si09ifaa6f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vip.hari.ledgerapp",
+            "certificate_hash": "105eea66f2bd39525ba29f76d1ed158b641d5807"
+          }
+        },
+        {
+          "client_id": "252649280239-hees14mbf92pi9p8d927k5k8rh4rmhr6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVx29C2oMwIpewZCibMscZDwDcIpqP2Vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "252649280239-hees14mbf92pi9p8d927k5k8rh4rmhr6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
