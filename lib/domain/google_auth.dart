@@ -1,5 +1,4 @@
 import 'package:google_sign_in/google_sign_in.dart';
-
 class GoogleAuth {
   final GoogleSignIn google = GoogleSignIn();
 
@@ -34,6 +33,7 @@ class GoogleAuth {
     else
       return [false, accout];
   }
+
 
 
 }

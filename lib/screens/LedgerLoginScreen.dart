@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ledgerapp/screens/LedgerHomeScreen.dart';
+import 'package:ledgerapp/stateManagenet/ledger_state_controller.dart';
+import 'package:provider/provider.dart';
 
 class LedgerLoginScreen extends StatefulWidget {
   @override
@@ -10,7 +13,7 @@ class LedgerLoginScreen extends StatefulWidget {
 class _LedgerLoginScreenState extends State<LedgerLoginScreen> {
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
+    return Scaffold(
       backgroundColor: Color(0xFFf1f6f9),
       body: Center(
         child: Column(
@@ -34,7 +37,13 @@ class _LedgerLoginScreenState extends State<LedgerLoginScreen> {
               minWidth: 100,
               height: 44,
               onPressed: () {
-
+              assert(Provider.of<LedgerState>(context,listen: false).clickSign());
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => LedgerHomeScreen(),
+                  ),
+                );
               },
               child: Row(
                 //   mainAxisAlignment: MainAxisAlignment.spaceBetween
