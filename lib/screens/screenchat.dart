@@ -18,26 +18,28 @@ class _UserViewScreenState extends State<UserViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow,
-        title: Text("Venkat Money history"),
+        title: Text("${widget.friendName} Money history"),
         centerTitle: true,
       ),
       body: StreamBuilder(
-        stream: collectionReference.document("HLDGKW0kSl1KAW5Z1sio").collection(widget.friendName).snapshots(),
+        stream: collectionReference
+            .document("HLDGKW0kSl1KAW5Z1sio")
+            .collection(widget.friendName)
+            .snapshots(),
         builder: (context, snap) {
           if (!snap.hasData) {
             return Center(
               child: Text("Wait a Min Data Fetching from cloud ...."),
             );
           }
-          List<DocumentSnapshot> ds= snap.data.documents;
-          for(DocumentSnapshot d in ds)
-          {
-          print(d["amount"]);
-          }
+          // List<dynamic> ds = snap.data.documents.map((d) => listData(d)).toList();
+          // for(DocumentSnapshot d in ds)
+          // {
+          // print(d["amount"]);
+          // }
 
           return ListView.builder(
             itemCount: snap.data.documents.length,
@@ -46,10 +48,16 @@ class _UserViewScreenState extends State<UserViewScreen> {
                 margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                 width: MediaQuery.of(context).size.width * .7,
                 height: 100,
-
                 decoration: BoxDecoration(
                   color: Colors.red,
                   borderRadius: BorderRadius.circular(20)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("Rs : ${snap.data.documents[index]["amount"]}"),
+                    Text("Date : ${snap.data.documents[index]["sentDate"]}"),
+                  ],
                 ),
               );
             },
@@ -92,13 +100,14 @@ class _UserViewScreenState extends State<UserViewScreen> {
                                 DateTime d = DateTime.now();
                                 Map<String, dynamic> userData = {
                                   "sentDate": d.toString(),
-                                  "amount": int.parse(textEditingController.text)
+                                  "amount":
+                                      int.parse(textEditingController.text)
                                 };
                                 print(d);
                                 print(textEditingController.text);
                                 collectionReference
                                     .document("HLDGKW0kSl1KAW5Z1sio")
-                                    .collection("venkatesh")
+                                    .collection(widget.friendName)
                                     .doc()
                                     .set(userData);
 
@@ -120,7 +129,4 @@ class _UserViewScreenState extends State<UserViewScreen> {
       ),
     );
   }
-
-
-
 }

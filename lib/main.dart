@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ledgerapp/models/locator.dart';
 import 'package:ledgerapp/screens/home_screen.dart';
+import 'package:ledgerapp/stateManagenet/allmembers.dart';
 import 'package:logger/logger.dart';
 
 Logger logger = Logger();
 GoogleSignIn googleSignIn = GoogleSignIn();
 void main() async {
+  instance.registerSingleton<Members>(Members());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(LegderAppTask());
@@ -126,9 +129,14 @@ class _DashBoardState extends State<DashBoard>
 
   login() {
     googleSignIn.signIn();
+
   }
 
   logout() {
     googleSignIn.signOut();
   }
+
+
+
+
 }
