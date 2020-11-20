@@ -1,17 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ledgerapp/screens/SplashScreen.dart';
-import 'package:ledgerapp/stateManagenet/ledger_state_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:ledgerapp/screens/home_screen.dart';
 import 'package:logger/logger.dart';
 
 Logger logger = Logger();
-
+GoogleSignIn googleSignIn = GoogleSignIn();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -24,12 +21,6 @@ class LegderAppTask extends StatelessWidget {
     return MaterialApp(
       home: DashBoard(),
     );
-    // return ChangeNotifierProvider<LedgerState>(
-    //   create:(_)=>LedgerState(),
-    //   child: MaterialApp(
-    //     home: SplashScreen(),
-    //   ),
-    // );
   }
 }
 
@@ -38,10 +29,9 @@ class DashBoard extends StatefulWidget {
   _DashBoardState createState() => _DashBoardState();
 }
 
-class _DashBoardState extends State<DashBoard> {
-  // DocumentReference docReference=Firestore.instance.collection("DB").document("123456789");
+class _DashBoardState extends State<DashBoard>
+    with SingleTickerProviderStateMixin {
 
-  GoogleSignIn googleSignIn = GoogleSignIn();
   bool isAuth = false;
 
   @override
@@ -75,19 +65,9 @@ class _DashBoardState extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
-    return isAuth ? homePage() : loginScreen();
+    return isAuth ? HomeScreen() : loginScreen();
   }
 
-  homePage() {
-    return Scaffold(
-      body: Center(
-        child: InkWell(
-            child: Text("user autenticated "),onTap: (){
-              googleSignIn.signOut();
-        },),
-      ),
-    );
-  }
 
   loginScreen() {
     return Scaffold(
@@ -113,7 +93,9 @@ class _DashBoardState extends State<DashBoard> {
                   borderRadius: BorderRadius.circular(5)),
               minWidth: 100,
               height: 44,
-              onPressed: () {login();},
+              onPressed: () {
+                login();
+              },
               child: Row(
                 //   mainAxisAlignment: MainAxisAlignment.spaceBetween
                 mainAxisSize: MainAxisSize.min,
