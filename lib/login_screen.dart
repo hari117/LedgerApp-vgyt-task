@@ -65,9 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return isAuth ? HomeScreen() : unAuthScreen();
-    return Scaffold(
-      backgroundColor: Colors.amber,
-    );
+
   }
 
   unAuthScreen() {
@@ -101,7 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   googleLogin() {
-    print("button is pressed");
     google.signIn();
   }
 }

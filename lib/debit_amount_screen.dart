@@ -14,13 +14,11 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
   TextEditingController IfscCodeTE = TextEditingController();
   TextEditingController amountTE = TextEditingController();
 
-  UserAccountModel userAccountModel=UserAccountModel.instance;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  //  print(loc<UserAccountModel>().accountBalanc);
   }
 
   @override
@@ -32,17 +30,19 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
           child: SingleChildScrollView(
 
             child: Column(
-            //  mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   "Transfer Money To Other Accounts",
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: Colors.red),
+                  style: TextStyle(fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red),
                 ),
                 SizedBox(height: 20,),
                 Container(
                   padding: EdgeInsets.only(right: 10),
                   alignment: Alignment.centerRight,
-                  child: Text("Balance: ${userAccountModel.accountBalanc} rs"),
+                  child: Text(
+                      "Balance: ${loc<UserAccountModel>().accountBalanc} rs"),
                 ),
                 SizedBox(
                   height: 10,
@@ -57,7 +57,7 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                         child: TextField(
                           controller: bankNameTE,
                           decoration:
-                              InputDecoration(hintText: "Enter Bank Name"),
+                          InputDecoration(hintText: "Enter Bank Name"),
                         ),
                       )
                     ],
@@ -74,7 +74,7 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                           keyboardType: TextInputType.number,
                           controller: accountNumberTE,
                           decoration:
-                              InputDecoration(hintText: "Enter Accout Number"),
+                          InputDecoration(hintText: "Enter Accout Number"),
                         ),
                       )
                     ],
@@ -90,7 +90,7 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                         child: TextField(
                           controller: IfscCodeTE,
                           decoration:
-                              InputDecoration(hintText: "Enter IFSC Code"),
+                          InputDecoration(hintText: "Enter IFSC Code"),
                         ),
                       )
                     ],
@@ -107,7 +107,7 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                           keyboardType: TextInputType.number,
                           controller: amountTE,
                           decoration:
-                              InputDecoration(hintText: "Enter Amount To Send"),
+                          InputDecoration(hintText: "Enter Amount To Send"),
                         ),
                       )
                     ],
@@ -132,6 +132,11 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                             // code here
                             print("send button is pressed");
 
+                            loc<UserAccountModel>().accountBalanc =
+                                loc<UserAccountModel>().accountBalanc -
+                                    int.parse(amountTE.text);
+
+
                             showDialog(
                                 context: (context),
                                 builder: (context) {
@@ -146,26 +151,28 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
-                                            child: Text("Ok",style: TextStyle(color: Colors.white),),
+                                            child: Text("Ok", style: TextStyle(
+                                                color: Colors.white),),
                                             color: Colors.blue,
                                           ),
                                           SizedBox(width: 100,),
                                         ],
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .center,
                                       ),
                                     ],
                                   );
                                 });
 
                             Map<String, dynamic> map = {
-                              "senderName":google.currentUser.displayName,
+                              "senderName": google.currentUser.displayName,
                               "type": "Debit",
                               "BankName": bankNameTE.text,
                               "accountNumber": accountNumberTE.text,
                               "IFSCCode": IfscCodeTE.text,
                               "amount": amountTE.text,
                             };
-                            int temp=int.parse(amountTE.text);
+                            int temp = int.parse(amountTE.text);
 
 
                             await allTranscationRef
@@ -175,11 +182,13 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                                 .setData(map);
 
 
-
                             bankNameTE.clear();
                             accountNumberTE.clear();
                             IfscCodeTE.clear();
                             amountTE.clear();
+                            setState(() {
+
+                            });
                           },
                         ),
                       ),

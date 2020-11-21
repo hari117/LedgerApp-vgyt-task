@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ledgerapp/getit_locaters.dart';
 import 'package:ledgerapp/login_screen.dart';
-import 'package:ledgerapp/state_managemnt.dart';
-import 'package:ledgerapp/useraccoutmodel.dart';
 
 void main() async
 {

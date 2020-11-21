@@ -50,6 +50,7 @@ class _CreateAccoutState extends State<CreateAccout> {
                   height: 5,
                 ),
                 TextField(
+                  keyboardType: TextInputType.number,
                   controller: accountNumberTE,
                   decoration: InputDecoration(hintText: "Enter accountNumber"),
                 ),
@@ -84,9 +85,7 @@ class _CreateAccoutState extends State<CreateAccout> {
                  await userAccountRef
                         .doc(google.currentUser.id)
                         .setData(map);
-
-                    
-                    Navigator.pop(context);
+                 Navigator.pop(context);
                     userNameTE.clear();
                     bankNameTE.clear();
                     accountNumberTE.clear();

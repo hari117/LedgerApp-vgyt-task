@@ -31,8 +31,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           return ListView.builder(
             itemBuilder: (context, index)
             {
-              // print(snap.data.dcoument[index]);
-            //  return Text(ds[index]["amount"]);
+
              return historyCard(ds[index]);
             },
             itemCount: ds.length,
@@ -56,7 +55,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
         amout=" + ${doc["amount"]}";
         color=Colors.green;
       }
-    //Color color=doc["Credit"]=="Credit"?Colors.green:Colors.red;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
       width: MediaQuery.of(context).size.width * .9,

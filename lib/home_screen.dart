@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ledgerapp/accout_settings_page.dart';
+import 'package:ledgerapp/addmoney_settings_page.dart';
 import 'package:ledgerapp/orthers_amount_screen.dart';
 import 'package:ledgerapp/debit_amount_screen.dart';
 import 'package:ledgerapp/hostory_screen.dart';

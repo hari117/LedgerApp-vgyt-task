@@ -1,9 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ledgerapp/getit_locaters.dart';
 import 'package:ledgerapp/login_screen.dart';
-import 'package:ledgerapp/state_managemnt.dart';
-import 'package:ledgerapp/useraccoutmodel.dart';
 
 class AccoutsettingsPage extends StatefulWidget {
   @override
@@ -11,7 +7,6 @@ class AccoutsettingsPage extends StatefulWidget {
 }
 
 class _AccoutsettingsPageState extends State<AccoutsettingsPage> {
-  UserAccountModel userAccountModel = UserAccountModel.instance;
 
      TextEditingController moneyTE=TextEditingController();
 
