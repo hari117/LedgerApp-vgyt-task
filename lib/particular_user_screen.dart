@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ledgerapp/transcation_screen.dart';
 
 class ParticularUserScreen extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _ParticularUserScreenState extends State<ParticularUserScreen> {
           children: [
             Container(
               color: Colors.blue,
-              height: MediaQuery.of(context).size.height * .3,
+              height: MediaQuery.of(context).size.height * .4,
               child: Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: Column(
@@ -147,49 +148,57 @@ class _ParticularUserScreenState extends State<ParticularUserScreen> {
                 ),
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              height: 80,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 10,
-                      color: Colors.black45,
-                      offset: Offset(
-                        7.0, // Move to right 10  horizontally
-                        7.0, // Move to bottom 10 Vertically
-                      ),
+            ListView.builder(
+              primary: false,
+              shrinkWrap: true,
+              itemCount: 20,
+              itemBuilder: (context,index){
+              return Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                height: 80,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        color: Colors.black45,
+                        offset: Offset(
+                          7.0, // Move to right 10  horizontally
+                          7.0, // Move to bottom 10 Vertically
+                        ),
+                      )
+                    ]),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "22-10-2020",
+                      style: GoogleFonts.muli(),
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.arrow_upward_rounded,
+                          color: Colors.green,
+                        ),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Text(
+                          "\$100 Rs",
+                          style: GoogleFonts.muli(),
+                        ),
+                      ],
                     )
-                  ]),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "22-10-2020",
-                    style: GoogleFonts.muli(),
-                  ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.arrow_upward_rounded,
-                        color: Colors.green,
-                      ),
-                      SizedBox(
-                        width: 3,
-                      ),
-                      Text(
-                        "\$100 Rs",
-                        style: GoogleFonts.muli(),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                  ],
+                ),
+              );
+              }
+
             ),
           ],
         ),
@@ -198,7 +207,9 @@ class _ParticularUserScreenState extends State<ParticularUserScreen> {
         backgroundColor: Colors.blue,
         onPressed: ()
         {
-
+          Navigator.push(
+              context, new MaterialPageRoute(
+              builder: (context) => TranscationScreen()));
         },
         child: Icon(Icons.attach_money,color: Colors.white,),
       ),
