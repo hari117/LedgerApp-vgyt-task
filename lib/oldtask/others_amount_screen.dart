@@ -1,63 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:ledgerapp/getit_locaters.dart';
 import 'package:ledgerapp/login_screen.dart';
-import 'package:ledgerapp/useraccoutmodel.dart';
 
-class DebitAmountScreen extends StatefulWidget {
+class CreditScreen extends StatefulWidget {
   @override
-  _DebitAmountScreenState createState() => _DebitAmountScreenState();
+  _CreditScreenState createState() => _CreditScreenState();
 }
 
-class _DebitAmountScreenState extends State<DebitAmountScreen> {
+class _CreditScreenState extends State<CreditScreen> {
+  TextEditingController senderNameTE = TextEditingController();
   TextEditingController bankNameTE = TextEditingController();
   TextEditingController accountNumberTE = TextEditingController();
   TextEditingController IfscCodeTE = TextEditingController();
   TextEditingController amountTE = TextEditingController();
 
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //   resizeToAvoidBottomPadding: false,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(
-
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Transfer Money To Other Accounts",
-                  style: TextStyle(fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red),
+                SizedBox(
+                  height: 20,
                 ),
-                SizedBox(height: 20,),
-                Container(
-                  padding: EdgeInsets.only(right: 10),
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                      "Balance: ${loc<UserAccountModel>().accountBalanc} rs"),
+                Text(
+                  "Receive From Other Accounts",
+                  style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   child: Row(
                     children: [
-                      Expanded(flex: 1, child: Text("Enter Bank Name :")),
+                      Expanded(flex: 1, child: Text("Name")),
+                      Expanded(
+                        flex: 2,
+                        child: TextField(
+                          controller: senderNameTE,
+                          decoration: InputDecoration(hintText: "Enter Name"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Row(
+                    children: [
+                      Expanded(flex: 1, child: Text("Bank Name :")),
                       Expanded(
                         flex: 2,
                         child: TextField(
                           controller: bankNameTE,
-                          decoration:
-                          InputDecoration(hintText: "Enter Bank Name"),
+                          decoration: InputDecoration(hintText: "Bank Name"),
                         ),
                       )
                     ],
@@ -74,7 +78,7 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                           keyboardType: TextInputType.number,
                           controller: accountNumberTE,
                           decoration:
-                          InputDecoration(hintText: "Enter Accout Number"),
+                              InputDecoration(hintText: "Enter Accout Number"),
                         ),
                       )
                     ],
@@ -90,7 +94,7 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                         child: TextField(
                           controller: IfscCodeTE,
                           decoration:
-                          InputDecoration(hintText: "Enter IFSC Code"),
+                              InputDecoration(hintText: "Enter IFSC Code"),
                         ),
                       )
                     ],
@@ -107,16 +111,14 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                           keyboardType: TextInputType.number,
                           controller: amountTE,
                           decoration:
-                          InputDecoration(hintText: "Enter Amount To Send"),
+                              InputDecoration(hintText: "Enter Amount To Send"),
                         ),
                       )
                     ],
                   ),
                 ),
-
-                //send button
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 30),
                   child: Row(
                     children: [
                       Expanded(flex: 1, child: Container()),
@@ -129,14 +131,6 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () async {
-                            // code here
-                            print("send button is pressed");
-
-                            loc<UserAccountModel>().accountBalanc =
-                                loc<UserAccountModel>().accountBalanc -
-                                    int.parse(amountTE.text);
-
-
                             showDialog(
                                 context: (context),
                                 builder: (context) {
@@ -151,29 +145,32 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
-                                            child: Text("Ok", style: TextStyle(
-                                                color: Colors.white),),
+                                            child: Text(
+                                              "Ok",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
                                             color: Colors.blue,
                                           ),
-                                          SizedBox(width: 100,),
+                                          SizedBox(
+                                            width: 100,
+                                          ),
                                         ],
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                       ),
                                     ],
                                   );
                                 });
 
                             Map<String, dynamic> map = {
-                              "senderName": google.currentUser.displayName,
-                              "type": "Debit",
+                              "senderName": senderNameTE.text,
+                              "type": "Credit",
                               "BankName": bankNameTE.text,
                               "accountNumber": accountNumberTE.text,
                               "IFSCCode": IfscCodeTE.text,
                               "amount": amountTE.text,
                             };
-                            int temp = int.parse(amountTE.text);
-
 
                             await allTranscationRef
                                 .document(google.currentUser.id)
@@ -181,14 +178,11 @@ class _DebitAmountScreenState extends State<DebitAmountScreen> {
                                 .document()
                                 .setData(map);
 
-
                             bankNameTE.clear();
                             accountNumberTE.clear();
                             IfscCodeTE.clear();
                             amountTE.clear();
-                            setState(() {
-
-                            });
+                            senderNameTE.clear();
                           },
                         ),
                       ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ledgerapp/addmoney_settings_page.dart';
-import 'package:ledgerapp/orthers_amount_screen.dart';
-import 'package:ledgerapp/debit_amount_screen.dart';
-import 'package:ledgerapp/hostory_screen.dart';
+import 'package:ledgerapp/oldtask/addmoney_settings_page.dart';
+import 'package:ledgerapp/oldtask/others_amount_screen.dart';
+import 'package:ledgerapp/oldtask/debit_amount_screen.dart';
+import 'package:ledgerapp/oldtask/hostory_screen.dart';
 import 'package:ledgerapp/login_screen.dart';
 
  int GolobalAmount=0;

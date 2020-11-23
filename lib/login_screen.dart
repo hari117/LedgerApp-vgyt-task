@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ledgerapp/createUserAccoutPage.dart';
-import 'package:ledgerapp/home_screen.dart';
+import 'package:ledgerapp/add_user_screen.dart';
+import 'package:ledgerapp/oldtask/createUserAccoutPage.dart';
+import 'package:ledgerapp/oldtask/home_screen.dart';
+import 'package:ledgerapp/newhome_screen.dart';
+import 'package:ledgerapp/particular_user_screen.dart';
 
 
 GoogleSignIn google = GoogleSignIn();
@@ -11,8 +14,6 @@ CollectionReference userAccountRef = Firestore.instance.collection(
     "UserAccouts");
 CollectionReference allTranscationRef = Firestore.instance.collection(
     "Transactions");
- DocumentSnapshot globalDocSnapShot;
-
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   hangleSignIn(GoogleSignInAccount account) {
     if (account != null) {
-      checkUsersInFireBase();
+     // checkUsersInFireBase();
       setState(() {
         isAuth = true;
       });
@@ -48,7 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
 
-  checkUsersInFireBase() async {
+  checkUsersInFireBase() async
+  {
     DocumentSnapshot doc = await userAccountRef.document(
         google.currentUser.id).get();
     if (!doc.exists) {
@@ -58,13 +60,12 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
     }
-    globalDocSnapShot=await userAccountRef.document(
-        google.currentUser.id).get();
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return isAuth ? HomeScreen() : unAuthScreen();
+    return isAuth ? NewHomeScreen() : unAuthScreen();
 
   }
 
