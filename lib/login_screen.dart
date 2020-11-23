@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   hangleSignIn(GoogleSignInAccount account) {
     if (account != null) {
-     // checkUsersInFireBase();
+      checkUsersInFireBase();
       setState(() {
         isAuth = true;
       });
@@ -54,10 +54,21 @@ class _LoginScreenState extends State<LoginScreen> {
     DocumentSnapshot doc = await userAccountRef.document(
         google.currentUser.id).get();
     if (!doc.exists) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => CreateAccout()),
-      );
+      Map<String, dynamic> map = {
+
+        "name": google.currentUser.displayName,
+        "id": google.currentUser.id,
+        "email": google.currentUser.email,
+        "photoUrl": google.currentUser.photoUrl,
+      };
+      await userAccountRef
+          .doc(google.currentUser.id)
+          .setData(map);
+
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => CreateAccout()),
+      // );
 
     }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ledgerapp/search_user_screen.dart';
 
 class TranscationScreen extends StatefulWidget {
   @override
@@ -37,148 +38,154 @@ class _TranscationScreenState extends State<TranscationScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Accout Name",
-              style: GoogleFonts.muli(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 1.2),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 15),
-              child: TextField(
-                onTap: () {
-                  print("textfeild  pressed");
-                },
-                readOnly: true,
-                keyboardType: TextInputType.number,
-                autofocus: false,
-                decoration: InputDecoration(
-                    hintText: "Accout",
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Accout Name",
+                style: GoogleFonts.muli(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1.2),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 15),
+                child: TextField(
+                  onTap: () {
+                    print("textfeild  pressed");
+
+                    Navigator.push(
+                        context, new MaterialPageRoute(
+                        builder: (context) =>  SearchUser()));
+                  },
+                  readOnly: true,
+                  //keyboardType: TextInputType.number,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                      hintText: "Accout",
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
-                          color: Colors.black45,
-                        )),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black45),
-                      borderRadius: BorderRadius.circular(5.0),
-                    )),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Transcation ",
-              style: GoogleFonts.muli(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 1.2),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(vertical: 10),
-              padding: EdgeInsets.symmetric(horizontal: 2),
-              height: 80,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      onTap: () {
-                        print("Amount  pressed");
-                      },
-                      readOnly: true,
-                      keyboardType: TextInputType.number,
-                      autofocus: false,
-                      decoration: InputDecoration(
-                          hintText: "Amount",
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              borderSide: BorderSide(
-                                color: Colors.black45,
-                              )),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black45),
-                            borderRadius: BorderRadius.circular(5.0),
-                          )),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  MaterialButton(
-                      height: 57,
-                      color: Colors.blue,
-                      child: Text(
-                        "Select Data",
-                        style: GoogleFonts.muli(color: Colors.white),
                       ),
-                      onPressed: () {
-                        print("button pressed");
-                      })
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              "Transcation Note",
-              style: GoogleFonts.muli(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 1.2),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 17),
-              child: TextField(
-                onTap: () {
-                  print("textfeild  pressed");
-                },
-                readOnly: true,
-                keyboardType: TextInputType.number,
-                autofocus: false,
-                decoration: InputDecoration(
-                    hintText: "Note",
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(
+                            color: Colors.black45,
+                          )),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black45),
                         borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
-                          color: Colors.black45,
-                        )),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black45),
-                      borderRadius: BorderRadius.circular(5.0),
-                    )),
+                      )),
+                ),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Transcation ",
+                style: GoogleFonts.muli(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1.2),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 2),
+                height: 80,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        onTap: () {
+                          print("Amount  pressed");
+                        },
+                       
+                        keyboardType: TextInputType.number,
+                        autofocus: false,
+                        decoration: InputDecoration(
+                            hintText: "Amount",
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                borderSide: BorderSide(
+                                  color: Colors.black45,
+                                )),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black45),
+                              borderRadius: BorderRadius.circular(5.0),
+                            )),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    MaterialButton(
+                        height: 57,
+                        color: Colors.blue,
+                        child: Text(
+                          "Select Data",
+                          style: GoogleFonts.muli(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          print("button pressed");
+                        })
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "Transcation Note",
+                style: GoogleFonts.muli(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1.2),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 17),
+                child: TextField(
+                  onTap: () {
+                    print("textfeild  pressed");
+                  },
+                  readOnly: true,
+                  keyboardType: TextInputType.number,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                      hintText: "Note",
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(
+                            color: Colors.black45,
+                          )),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black45),
+                        borderRadius: BorderRadius.circular(5.0),
+                      )),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: Container(

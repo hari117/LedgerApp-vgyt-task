@@ -72,15 +72,14 @@ class _CreateAccoutState extends State<CreateAccout> {
                   color: Colors.blue,
                   onPressed: () async {
                     Map<String, dynamic> map = {
-                      "userNam": userNameTE.text,
+
                       "name": google.currentUser.displayName,
                       "id": google.currentUser.id,
                       "email": google.currentUser.email,
                       "photoUrl": google.currentUser.photoUrl,
-                      "bankName": bankNameTE.text,
-                      "bankAccount": accountNumberTE.text,
                       "ifscCode": ifscTE.text,
-                      "accountBalance":0.0,
+
+
                     };
                  await userAccountRef
                         .doc(google.currentUser.id)

@@ -10,6 +10,12 @@ class CreateUser extends StatefulWidget {
 class _CreateUserState extends State<CreateUser> {
 
 
+  TextEditingController nameController=TextEditingController();
+  TextEditingController mobileNumberController=TextEditingController();
+  TextEditingController eMailController=TextEditingController();
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +58,7 @@ class _CreateUserState extends State<CreateUser> {
               Container(
                 padding: EdgeInsets.symmetric(vertical: 15),
                 child: TextField(
-                  keyboardType: TextInputType.number,
+                  controller: nameController,
                   autofocus: false,
                   decoration: InputDecoration(
                     hintText: "Name *",
@@ -77,6 +83,7 @@ class _CreateUserState extends State<CreateUser> {
                 padding: EdgeInsets.symmetric(vertical: 15),
                 child: TextField(
                   keyboardType: TextInputType.number,
+                  controller: mobileNumberController,
                   autofocus: false,
                   decoration: InputDecoration(
                       hintText: "MobileNumber *",
@@ -102,7 +109,7 @@ class _CreateUserState extends State<CreateUser> {
               Container(
                 padding: EdgeInsets.symmetric(vertical:15 ),
                 child: TextField(
-                  keyboardType: TextInputType.number,
+                  controller: eMailController,
                   autofocus: false,
                   decoration: InputDecoration(
                       hintText: "Email",
@@ -125,32 +132,7 @@ class _CreateUserState extends State<CreateUser> {
                   ),
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  autofocus: false,
-                  decoration: InputDecoration(
-                      hintText: "Description",
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
 
-                          borderSide: BorderSide(
-                            color: Colors.black45,
-
-                          )
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black45),
-                        borderRadius: BorderRadius.circular(5.0),
-                      )
-                  ),
-                ),
-              ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 15),
 
