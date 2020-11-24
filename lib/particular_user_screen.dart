@@ -1,13 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ledgerapp/login_screen.dart';
 import 'package:ledgerapp/transcation_screen.dart';
 
 class ParticularUserScreen extends StatefulWidget {
+  String name;
+
+  ParticularUserScreen({this.name});
+
   @override
   _ParticularUserScreenState createState() => _ParticularUserScreenState();
 }
 
 class _ParticularUserScreenState extends State<ParticularUserScreen> {
+  int totalDebit = 0;
+  int totalCredit = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +25,7 @@ class _ParticularUserScreenState extends State<ParticularUserScreen> {
         elevation: 0,
         backgroundColor: Colors.blue,
         title: Text(
-          "Ravi Kumar",
+          "${widget.name}",
           style: GoogleFonts.muli(
             letterSpacing: 1.1,
           ),
@@ -45,13 +54,7 @@ class _ParticularUserScreenState extends State<ParticularUserScreen> {
                         SizedBox(
                           width: 10,
                         ),
-                        Text(
-                          "+918608602032",
-                          style: GoogleFonts.muli(
-                              letterSpacing: 1.1,
-                              color: Colors.white,
-                              fontSize: 12),
-                        )
+                        mobileStreamBuilder(),
                       ],
                     ),
                     SizedBox(
@@ -67,19 +70,12 @@ class _ParticularUserScreenState extends State<ParticularUserScreen> {
                         SizedBox(
                           width: 10,
                         ),
-                        Text(
-                          "HariKrishnarko007@gmail.com",
-                          style: GoogleFonts.muli(
-                              letterSpacing: 1.1,
-                              color: Colors.white,
-                              fontSize: 12),
-                        )
+                        eMailStreamBuilder(),
                       ],
                     ),
                     Container(
-                      //  color: Colors.black45,
-                      width: double.infinity,
-                      height: 100,
+                      width: MediaQuery.of(context).size.width * .9,
+                      height: 70,
                       alignment: Alignment.center,
                       child: Text(
                         "\$ 100 Rs",
@@ -89,130 +85,259 @@ class _ParticularUserScreenState extends State<ParticularUserScreen> {
                             color: Colors.white),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              child: Icon(
-                                Icons.arrow_upward_rounded,
-                                size: 50,
-                                color: Colors.white,
+                    Container(
+                      width: MediaQuery.of(context).size.width * .9,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                child: Icon(
+                                  Icons.arrow_upward_rounded,
+                                  size: 50,
+                                  color: Colors.green,
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all(
+                                        color: Colors.green, width: 3)),
                               ),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  border: Border.all(
-                                      color: Colors.white, width: 1)),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '\$100  \nCredit',
-                              style: GoogleFonts.muli(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  letterSpacing: 1.1),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              child: Icon(
-                                Icons.arrow_downward,
-                                size: 50,
-                                color: Colors.white,
+
+                              //StreamBuilder here
+                              SizedBox(width: 10,),
+                              creditStreamBuilder(),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                child: Icon(
+                                  Icons.arrow_downward,
+                                  size: 50,
+                                  color: Colors.red,
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all(
+                                        color: Colors.red, width: 3)),
                               ),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  border: Border.all(
-                                      color: Colors.white, width: 1)),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '\$100 \nDebit',
-                              style: GoogleFonts.muli(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  letterSpacing: 1.1),
-                            ),
-                          ],
-                        ),
-                      ],
+                              SizedBox(
+                                width: 10,
+                              ),
+                              debitStreamBuilder(),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-            ListView.builder(
-              primary: false,
-              shrinkWrap: true,
-              itemCount: 20,
-              itemBuilder: (context,index){
-              return Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                height: 80,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 10,
-                        color: Colors.black45,
-                        offset: Offset(
-                          7.0, // Move to right 10  horizontally
-                          7.0, // Move to bottom 10 Vertically
-                        ),
-                      )
-                    ]),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "22-10-2020",
-                      style: GoogleFonts.muli(),
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_upward_rounded,
-                          color: Colors.green,
-                        ),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Text(
-                          "\$100 Rs",
-                          style: GoogleFonts.muli(),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              );
-              }
+            StreamBuilder(
+              stream: allTranscationRef
+                  .doc(documentId)
+                  .collection(widget.name)
+                  .snapshots(),
+              builder: (context, snap) {
+                if (!snap.hasData) {
+                  return Center(
+                    child: Text("Wait Data Is Loading"),
+                  );
+                }
+                List<DocumentSnapshot> doc = snap.data.documents;
+                for (DocumentSnapshot d in doc) {
+                  print(d.data());
+                }
+                ;
+                return ListView.builder(
+                    primary: false,
+                    shrinkWrap: true,
+                    itemCount: snap.data.documents.length,
+                    itemBuilder: (context, index) {
+                      IconData iconChange;
+                      Color colorType;
+                      if ("Debit" == doc[index]["type"]) {
+                        iconChange = Icons.arrow_downward;
+                        colorType = Colors.red;
 
-            ),
+                        totalDebit =
+                            totalDebit + int.parse(doc[index]["amount"]);
+                        print("totalDebit : $totalDebit");
+                      } else {
+                        iconChange = Icons.arrow_upward;
+                        colorType = Colors.green;
+                        totalCredit =
+                            totalCredit + int.parse(doc[index]["amount"]);
+                        print("totalCredit : $totalCredit");
+                      }
+                      if (index == doc.length - 1) {
+                        totalAmount();
+                      }
+                      return Container(
+                        alignment: Alignment.center,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        height: 80,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 10,
+                                color: Colors.black45,
+                                offset: Offset(
+                                  7.0, // Move to right 10  horizontally
+                                  7.0, // Move to bottom 10 Vertically
+                                ),
+                              )
+                            ]),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              doc[index]["date"],
+                              style: GoogleFonts.muli(),
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  iconChange,
+                                  color: colorType,
+                                ),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  "\$ ${doc[index]["amount"]} Rs",
+                                  style: GoogleFonts.muli(),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    });
+              },
+            )
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
-        onPressed: ()
-        {
+        onPressed: () {
           Navigator.push(
-              context, new MaterialPageRoute(
-              builder: (context) => TranscationScreen()));
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => TranscationScreen(name: widget.name)));
         },
-        child: Icon(Icons.attach_money,color: Colors.white,),
+        child: Icon(
+          Icons.attach_money,
+          color: Colors.white,
+        ),
       ),
+    );
+  }
+
+  totalAmount() async {
+    Map<String, int> map1 = {"inDebit": totalDebit, "inCredit": totalCredit};
+    allUsersListRef.doc(widget.name).updateData(map1);
+
+    print("totalAmount Funtion Called");
+  }
+
+  debitStreamBuilder() {
+    return StreamBuilder(
+      stream: allUsersListRef.snapshots(),
+      builder: (context, snap) {
+        if (!snap.hasData) {
+          return Text("wait");
+        }
+        List<DocumentSnapshot> docSnap = snap.data.documents;
+        for (DocumentSnapshot d in docSnap) {
+          if (widget.name == d["name"]) {
+            return Text(
+              '\$ ${d["inDebit"]}  \nDebit',
+              style: GoogleFonts.muli(
+                  color: Colors.white, fontSize: 10, letterSpacing: 1.1),
+              overflow: TextOverflow.ellipsis,
+            );
+          }
+        }
+        return null;
+      },
+    );
+  }
+
+  creditStreamBuilder() {
+    return StreamBuilder(
+      stream: allUsersListRef.snapshots(),
+      builder: (context, snap) {
+        if (!snap.hasData) {
+          return Text("wait");
+        }
+        List<DocumentSnapshot> docSnap = snap.data.documents;
+        for (DocumentSnapshot d in docSnap) {
+          if (widget.name == d["name"]) {
+            return Text(
+              '\$ ${d["inCredit"]}  \nDebit',
+              style: GoogleFonts.muli(
+                  color: Colors.white, fontSize: 10, letterSpacing: 1.1),
+              overflow: TextOverflow.ellipsis,
+            );
+          }
+        }
+        return null;
+      },
+    );
+  }
+
+  mobileStreamBuilder() {
+    return StreamBuilder(
+      stream: allUsersListRef.snapshots(),
+      builder: (context, snap) {
+        if (!snap.hasData) {
+          return Text("Loading");
+        }
+        List<DocumentSnapshot> phoneNum = snap.data.documents;
+        for (DocumentSnapshot dc in phoneNum) {
+          if (dc["name"] == widget.name) {
+            return Text(
+              dc["mobileNumber"],
+              style: GoogleFonts.muli(
+                  letterSpacing: 1.1, color: Colors.white, fontSize: 12),
+            );
+          }
+          print(dc.data());
+        }
+        return null;
+      },
+    );
+  }
+
+  eMailStreamBuilder() {
+    return StreamBuilder(
+      stream: allUsersListRef.snapshots(),
+      builder: (context, snap) {
+        if (!snap.hasData) {
+          return Text("Loading");
+        }
+        List<DocumentSnapshot> phoneNum = snap.data.documents;
+        for (DocumentSnapshot dc in phoneNum) {
+          if (dc["name"] == widget.name) {
+            return Text(
+              dc["eMail"],
+              style: GoogleFonts.muli(
+                  letterSpacing: 1.1, color: Colors.white, fontSize: 11),
+            );
+          }
+          print(dc.data());
+        }
+        return null;
+      },
     );
   }
 }

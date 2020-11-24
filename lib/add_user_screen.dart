@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ledgerapp/login_screen.dart';
 import 'package:ledgerapp/oldtask/addmoney_settings_page.dart';
 import 'package:ledgerapp/particular_user_screen.dart';
 
@@ -10,10 +11,9 @@ class CreateUser extends StatefulWidget {
 class _CreateUserState extends State<CreateUser> {
 
 
-  TextEditingController nameController=TextEditingController();
-  TextEditingController mobileNumberController=TextEditingController();
-  TextEditingController eMailController=TextEditingController();
-
+  TextEditingController nameController = TextEditingController();
+  TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController eMailController = TextEditingController();
 
 
   @override
@@ -31,8 +31,7 @@ class _CreateUserState extends State<CreateUser> {
             Icons.arrow_back,
             color: Colors.black,
           ),
-          onPressed: ()
-          {
+          onPressed: () {
             Navigator.pop(context);
           },
         ),
@@ -41,7 +40,7 @@ class _CreateUserState extends State<CreateUser> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment:CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "Create Account",
@@ -53,7 +52,7 @@ class _CreateUserState extends State<CreateUser> {
               ),
               SizedBox(
 
-              height: 40,
+                height: 40,
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 15),
@@ -61,21 +60,21 @@ class _CreateUserState extends State<CreateUser> {
                   controller: nameController,
                   autofocus: false,
                   decoration: InputDecoration(
-                    hintText: "Name *",
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
+                      hintText: "Name",
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.black45
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide(
+                            color: Colors.black45
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black45),
+                        borderRadius: BorderRadius.circular(5.0),
                       )
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black45),
-                        borderRadius: BorderRadius.circular(5.0),
-                    )
                   ),
                 ),
               ),
@@ -86,7 +85,7 @@ class _CreateUserState extends State<CreateUser> {
                   controller: mobileNumberController,
                   autofocus: false,
                   decoration: InputDecoration(
-                      hintText: "MobileNumber *",
+                      hintText: "MobileNumber",
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.circular(5.0),
@@ -95,7 +94,7 @@ class _CreateUserState extends State<CreateUser> {
                           borderRadius: BorderRadius.circular(5.0),
 
                           borderSide: BorderSide(
-                              color: Colors.black45,
+                            color: Colors.black45,
 
                           )
                       ),
@@ -107,7 +106,7 @@ class _CreateUserState extends State<CreateUser> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(vertical:15 ),
+                padding: EdgeInsets.symmetric(vertical: 15),
                 child: TextField(
                   controller: eMailController,
                   autofocus: false,
@@ -139,22 +138,31 @@ class _CreateUserState extends State<CreateUser> {
                 width: double.infinity,
 
                 child: FlatButton(
-                  shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(5)),
-                  height: 50,
-                    onPressed:()
-                    {
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    height: 50,
+                    onPressed: () async {
                       print("add button is pressed");
 
-
+                      Map<String, dynamic> map = {
+                        "eMail": eMailController.text,
+                        "inCredit": 0,
+                        "inDebit": 0,
+                        "mobileNumber": mobileNumberController.text,
+                        "name": nameController.text
+                      };
+                      await
+                      allUsersListRef.doc(nameController.text).setData(map);
+                       String name=nameController.text;
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ParticularUserScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => ParticularUserScreen(name:name,)),
                       );
-
-
-
-
-                },
+                      nameController.clear();
+                      mobileNumberController.clear();
+                      eMailController.clear();
+                    },
                     color: Colors.blue,
                     child: Text("ADD")
 

@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ledgerapp/login_screen.dart';
 import 'package:ledgerapp/search_user_screen.dart';
+import 'package:intl/intl.dart';
 
 class TranscationScreen extends StatefulWidget {
+  String name;
   @override
   _TranscationScreenState createState() => _TranscationScreenState();
+
+  TranscationScreen({this.name});
 }
 
 class _TranscationScreenState extends State<TranscationScreen> {
   TextEditingController accoutNameController = TextEditingController();
   TextEditingController transcationAmountController = TextEditingController();
   TextEditingController transcationNote = TextEditingController();
+
+   String dateTime;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +94,7 @@ class _TranscationScreenState extends State<TranscationScreen> {
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black45),
                         borderRadius: BorderRadius.circular(5.0),
-                      )),
+                      ),),
                 ),
               ),
               SizedBox(
@@ -109,10 +124,7 @@ class _TranscationScreenState extends State<TranscationScreen> {
                   children: [
                     Expanded(
                       child: TextField(
-                        onTap: () {
-                          print("Amount  pressed");
-                        },
-                       
+                        controller: transcationAmountController,
                         keyboardType: TextInputType.number,
                         autofocus: false,
                         decoration: InputDecoration(
@@ -139,11 +151,22 @@ class _TranscationScreenState extends State<TranscationScreen> {
                         height: 57,
                         color: Colors.blue,
                         child: Text(
-                          "Select Data",
+                          dateTime==null?"data":dateTime.toString(),
                           style: GoogleFonts.muli(color: Colors.white),
                         ),
                         onPressed: () {
                           print("button pressed");
+                          showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate:DateTime(1950) ,
+                            lastDate: DateTime(2050),
+                          ).then((date){
+                            dateTime=DateFormat('yyyy-MM-dd').format(date).toString();
+
+                            setState(() {
+                           });
+                          });
                         })
                   ],
                 ),
@@ -151,39 +174,36 @@ class _TranscationScreenState extends State<TranscationScreen> {
               SizedBox(
                 height: 5,
               ),
-              Text(
-                "Transcation Note",
-                style: GoogleFonts.muli(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 1.2),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 17),
-                child: TextField(
-                  onTap: () {
-                    print("textfeild  pressed");
-                  },
-                  readOnly: true,
-                  keyboardType: TextInputType.number,
-                  autofocus: false,
-                  decoration: InputDecoration(
-                      hintText: "Note",
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                            color: Colors.black45,
-                          )),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black45),
-                        borderRadius: BorderRadius.circular(5.0),
-                      )),
-                ),
-              ),
+              // Text(
+              //   "Transcation Note",
+              //   style: GoogleFonts.muli(
+              //       fontSize: 18,
+              //       fontWeight: FontWeight.w900,
+              //       letterSpacing: 1.2),
+              // ),
+              // Container(
+              //   padding: EdgeInsets.symmetric(vertical: 17),
+              //   child: TextField(
+              //
+              //
+              //     autofocus: false,
+              //     decoration: InputDecoration(
+              //         hintText: "Note",
+              //         border: OutlineInputBorder(
+              //           borderSide: BorderSide(color: Colors.black),
+              //           borderRadius: BorderRadius.circular(5.0),
+              //         ),
+              //         enabledBorder: OutlineInputBorder(
+              //             borderRadius: BorderRadius.circular(5.0),
+              //             borderSide: BorderSide(
+              //               color: Colors.black45,
+              //             )),
+              //         focusedBorder: OutlineInputBorder(
+              //           borderSide: BorderSide(color: Colors.black45),
+              //           borderRadius: BorderRadius.circular(5.0),
+              //         )),
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -201,8 +221,15 @@ class _TranscationScreenState extends State<TranscationScreen> {
                 child: MaterialButton(
                      height: 50,
                     color: Colors.red,
-                    onPressed: () {
+                    onPressed: () async{
                        print("debit button is pressed");
+                       print("entered amount is ${transcationAmountController.text}");
+                         Map<String,dynamic> map={"type":"Debit","amount":transcationAmountController.text,"date":dateTime};
+                         print("******  map funtion finished**********");
+                       await allTranscationRef.doc(documentId).collection(widget.name).doc().setData(map);
+                       print("data is pushed to firebase");
+                       transcationAmountController.clear();
+                       dateTime=null;
                        Navigator.pop(context);
                     },
                   child: Text("Dedit",style: GoogleFonts.muli(fontSize: 18,letterSpacing: 1.2,fontWeight: FontWeight.w500),),
@@ -213,13 +240,19 @@ class _TranscationScreenState extends State<TranscationScreen> {
                 child: MaterialButton(
                   height: 50,
                   color: Colors.green,
-                    onPressed: () {
-                    print("credit button is pressed");
-
-                    Navigator.pop(context);
+                    onPressed: () async{
+                      print("Credit button is pressed");
+                      print("entered amount is ${transcationAmountController.text}");
+                      Map<String,dynamic> map={"type":"Credit","amount":transcationAmountController.text,"date":dateTime};
+                      print("******  map funtion finished**********");
+                      await allTranscationRef.doc(documentId).collection(widget.name).doc().setData(map);
+                      print("data is pushed to firebase");
+                      transcationAmountController.clear();
+                      dateTime=null;
+                      Navigator.pop(context);
 
                     },
-                  child: Text("Credit",style: GoogleFonts.muli(fontSize: 18,letterSpacing: 1.2,fontWeight: FontWeight.w500)),
+                  child: Text("Credit",style: GoogleFonts.muli(fontSize: 18,letterSpacing: 1.2,fontWeight: FontWeight.w500),),
                     ),
               ),
             ],

@@ -14,6 +14,11 @@ CollectionReference userAccountRef = Firestore.instance.collection(
     "UserAccouts");
 CollectionReference allTranscationRef = Firestore.instance.collection(
     "Transactions");
+   final documentId="101917814999370441435";
+   CollectionReference allUsersListRef=userAccountRef.doc(documentId).collection("allUsersList");
+
+
+
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -76,7 +81,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isAuth ? NewHomeScreen() : unAuthScreen();
+   // return isAuth ? NewHomeScreen() : unAuthScreen();
+    return NewHomeScreen();
 
   }
 
