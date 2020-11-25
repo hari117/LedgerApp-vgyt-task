@@ -159,7 +159,7 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                     itemCount: snap.data.documents.length,
                     itemBuilder: (context, index) {
                     String userName=doc[index]["name"];
-                    return UserCard(doc:userName,);
+                    return UserCard(userName:userName,);
 
                     });
               },

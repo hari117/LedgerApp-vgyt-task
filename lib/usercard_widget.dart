@@ -5,9 +5,9 @@ import 'package:ledgerapp/login_screen.dart';
 import 'package:ledgerapp/particular_user_screen.dart';
 
 class UserCard extends StatefulWidget {
-  String doc;
+  String userName;
 
-  UserCard({this.doc});
+  UserCard({this.userName});
 
   @override
   _UserCardState createState() => _UserCardState();
@@ -17,11 +17,48 @@ class _UserCardState extends State<UserCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onLongPress: ()
+      {
+
+
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Alert Dialog '),
+              content: Text("Are You Sure Want To Delete This User?"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("YES"),
+                  onPressed: () async{
+                    //Put your code here which you want to execute on Yes button click.
+                    Navigator.of(context).pop();
+                    await allUsersListRef.doc(widget.userName).delete();
+                    deleteAllTranscations(widget.userName);
+                  },
+                ),
+
+                FlatButton(
+                  child: Text("NO"),
+                  onPressed: () {
+                    //Put your code here which you want to execute on No button click.
+                    Navigator.of(context).pop();
+                  },
+                ),
+
+
+              ],
+            );
+          },
+        );
+
+      },
       onTap: () {
         Navigator.push(
           context,
           new MaterialPageRoute(
-            builder: (context) => ParticularUserScreen(name: widget.doc),
+            builder: (context) => ParticularUserScreen(name: widget.userName),
           ),
         );
       },
@@ -58,7 +95,7 @@ class _UserCardState extends State<UserCard> {
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(40)),
                   child: Text(
-                    "${widget.doc[0]}",
+                    "${widget.userName[0]}",
                     style: GoogleFonts.muli(color: Colors.white, fontSize: 22),
                   ),
                 ),
@@ -66,7 +103,7 @@ class _UserCardState extends State<UserCard> {
                   width: 9,
                 ),
                 Text(
-                  "${widget.doc}",
+                  "${widget.userName}",
                   style: GoogleFonts.muli(letterSpacing: 1.1),
                 ),
               ],
@@ -106,7 +143,7 @@ class _UserCardState extends State<UserCard> {
         List<DocumentSnapshot> doc=snap.data.documents;
         for(DocumentSnapshot dc in doc)
         {
-          if(widget.doc==dc["name"])
+          if(widget.userName==dc["name"])
           {
             int total=0;
             int a=dc["inCredit"];
@@ -141,5 +178,17 @@ class _UserCardState extends State<UserCard> {
         return null;
       },
     );
+  }
+  deleteAllTranscations(String name) async{
+   QuerySnapshot qc=await allTranscationRef.doc(documentId).collection(name).getDocuments();
+   List<DocumentSnapshot> dc=qc.docs;
+   for(DocumentSnapshot d in dc)
+     {
+       if(d.exists)
+         {
+        await allUsersListRef.doc(documentId).collection(name).doc(d.id).delete();
+         }
+     }
+
   }
 }
