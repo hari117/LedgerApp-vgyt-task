@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ledgerapp/login_screen.dart';
@@ -17,13 +18,13 @@ class _TranscationScreenState extends State<TranscationScreen> {
   TextEditingController transcationAmountController = TextEditingController();
   TextEditingController transcationNote = TextEditingController();
 
-   String dateTime;
+   String dateTime="";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    accoutNameController.text=widget.name;
   }
 
 
@@ -70,12 +71,13 @@ class _TranscationScreenState extends State<TranscationScreen> {
               Container(
                 padding: EdgeInsets.symmetric(vertical: 15),
                 child: TextField(
+                  controller: accoutNameController,
                   onTap: () {
                     print("textfeild  pressed");
 
                     Navigator.push(
                         context, new MaterialPageRoute(
-                        builder: (context) =>  SearchUser()));
+                        builder: (context) =>  SearchUser(callback:chooseUser,)));
                   },
                   readOnly: true,
                   //keyboardType: TextInputType.number,
@@ -151,7 +153,7 @@ class _TranscationScreenState extends State<TranscationScreen> {
                         height: 57,
                         color: Colors.blue,
                         child: Text(
-                          dateTime==null?"data":dateTime.toString(),
+                          dateTime==""?"data":dateTime.toString(),
                           style: GoogleFonts.muli(color: Colors.white),
                         ),
                         onPressed: () {
@@ -222,15 +224,50 @@ class _TranscationScreenState extends State<TranscationScreen> {
                      height: 50,
                     color: Colors.red,
                     onPressed: () async{
-                       print("debit button is pressed");
-                       print("entered amount is ${transcationAmountController.text}");
-                         Map<String,dynamic> map={"type":"Debit","amount":transcationAmountController.text,"date":dateTime};
-                         print("******  map funtion finished**********");
-                       await allTranscationRef.doc(documentId).collection(widget.name).doc().setData(map);
-                       print("data is pushed to firebase");
-                       transcationAmountController.clear();
-                       dateTime=null;
-                       Navigator.pop(context);
+
+                       if(transcationAmountController.text =="" &&  dateTime=="")
+                         {
+                           showDialog(
+                               context: context,
+                               builder: (context) {
+                                 return AlertDialog(
+                                   title: Text("Alert Message"),
+                                   content: Text("You Mush Fill Amount And Date"),
+                                   actions: [
+                                     FlatButton(
+                                       onPressed: () {
+                                         Navigator.pop(context);
+                                       },
+                                       child: Text("ok"),
+                                     )
+                                   ],
+                                 );
+                               });
+                         }
+                       else
+                         {
+                           print("debit button is pressed");
+                           print("entered amount is ${transcationAmountController.text}");
+                           Map<String,dynamic> map={"type":"Debit","amount":transcationAmountController.text,"date":dateTime};
+                           print("******  map funtion finished**********");
+                           await allTranscationRef.doc(documentId).collection(accoutNameController.text).doc().setData(map);
+
+                           print("data is pushed to firebase");
+                           DocumentSnapshot doc=await allUsersListRef.doc(accoutNameController.text).get();
+                           int total=int.parse(transcationAmountController.text)+doc["inDebit"];
+                           print("total $total");
+                           Map<String,dynamic> map2={"inDebit":total};
+                           await allUsersListRef.doc(accoutNameController.text).update(map2);
+                           print("debit value updated in allUsersList");
+                           transcationAmountController.clear();
+                           dateTime=null;
+                           Navigator.pop(context);
+                         }
+
+
+
+
+
                     },
                   child: Text("Dedit",style: GoogleFonts.muli(fontSize: 18,letterSpacing: 1.2,fontWeight: FontWeight.w500),),
                 ),
@@ -241,15 +278,50 @@ class _TranscationScreenState extends State<TranscationScreen> {
                   height: 50,
                   color: Colors.green,
                     onPressed: () async{
-                      print("Credit button is pressed");
-                      print("entered amount is ${transcationAmountController.text}");
-                      Map<String,dynamic> map={"type":"Credit","amount":transcationAmountController.text,"date":dateTime};
-                      print("******  map funtion finished**********");
-                      await allTranscationRef.doc(documentId).collection(widget.name).doc().setData(map);
-                      print("data is pushed to firebase");
-                      transcationAmountController.clear();
-                      dateTime=null;
-                      Navigator.pop(context);
+
+                    if(transcationAmountController.text =="" &&  dateTime=="")
+                      {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Alert Message"),
+                                content: Text("You Mush Fill Amount And Date"),
+                                actions: [
+                                  FlatButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("ok"),
+                                  )
+                                ],
+                              );
+                            });
+
+                      }else
+                        {
+                          print("Credit button is pressed");
+                          print("entered amount is ${transcationAmountController.text}");
+                          print("entered amount is ${accoutNameController.text}");
+                          Map<String,dynamic> map={"type":"Credit","amount":transcationAmountController.text,"date":dateTime};
+                          print("******  map funtion finished**********");
+                          await allTranscationRef.doc(documentId).collection(accoutNameController.text).doc().setData(map);
+                          print("data is pushed to firebase");
+
+                          // adding total credit transcation value in alluserList
+                          DocumentSnapshot doc=await allUsersListRef.doc(accoutNameController.text).get();
+
+                              int total=int.parse(transcationAmountController.text)+doc["inCredit"];
+                              print("total $total");
+                              Map<String,dynamic> map2={"inCredit":total};
+                              await allUsersListRef.doc(accoutNameController.text).update(map2);
+
+                              transcationAmountController.clear();
+                              dateTime=null;
+                              Navigator.pop(context);
+
+
+                        }
 
                     },
                   child: Text("Credit",style: GoogleFonts.muli(fontSize: 18,letterSpacing: 1.2,fontWeight: FontWeight.w500),),
@@ -271,5 +343,11 @@ class _TranscationScreenState extends State<TranscationScreen> {
         ),
       ),
     );
+  }
+
+  // This is Callback funtion to select user
+  chooseUser(String name)
+  {
+    accoutNameController.text=name;
   }
 }

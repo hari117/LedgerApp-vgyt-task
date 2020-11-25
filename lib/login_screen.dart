@@ -7,6 +7,7 @@ import 'package:ledgerapp/oldtask/createUserAccoutPage.dart';
 import 'package:ledgerapp/oldtask/home_screen.dart';
 import 'package:ledgerapp/newhome_screen.dart';
 import 'package:ledgerapp/particular_user_screen.dart';
+import 'package:ledgerapp/tempscreen.dart';
 
 
 GoogleSignIn google = GoogleSignIn();
@@ -81,7 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-   // return isAuth ? NewHomeScreen() : unAuthScreen();
+    //return isAuth ? DemoScreen() :unAuthScreen();
+    //return isAuth ? NewHomeScreen() : unAuthScreen();
     return NewHomeScreen();
 
   }

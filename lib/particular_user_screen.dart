@@ -14,8 +14,8 @@ class ParticularUserScreen extends StatefulWidget {
 }
 
 class _ParticularUserScreenState extends State<ParticularUserScreen> {
-  int totalDebit = 0;
-  int totalCredit = 0;
+  // int totalDebit = 0;
+  // int totalCredit = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -77,13 +77,7 @@ class _ParticularUserScreenState extends State<ParticularUserScreen> {
                       width: MediaQuery.of(context).size.width * .9,
                       height: 70,
                       alignment: Alignment.center,
-                      child: Text(
-                        "\$ 100 Rs",
-                        style: GoogleFonts.muli(
-                            letterSpacing: 1,
-                            fontSize: 20,
-                            color: Colors.white),
-                      ),
+                      child: overAllDebitAndCreditAmount(),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * .9,
@@ -105,7 +99,9 @@ class _ParticularUserScreenState extends State<ParticularUserScreen> {
                               ),
 
                               //StreamBuilder here
-                              SizedBox(width: 10,),
+                              SizedBox(
+                                width: 10,
+                              ),
                               creditStreamBuilder(),
                             ],
                           ),
@@ -161,19 +157,9 @@ class _ParticularUserScreenState extends State<ParticularUserScreen> {
                       if ("Debit" == doc[index]["type"]) {
                         iconChange = Icons.arrow_downward;
                         colorType = Colors.red;
-
-                        totalDebit =
-                            totalDebit + int.parse(doc[index]["amount"]);
-                        print("totalDebit : $totalDebit");
                       } else {
                         iconChange = Icons.arrow_upward;
                         colorType = Colors.green;
-                        totalCredit =
-                            totalCredit + int.parse(doc[index]["amount"]);
-                        print("totalCredit : $totalCredit");
-                      }
-                      if (index == doc.length - 1) {
-                        totalAmount();
                       }
                       return Container(
                         alignment: Alignment.center,
@@ -240,13 +226,6 @@ class _ParticularUserScreenState extends State<ParticularUserScreen> {
         ),
       ),
     );
-  }
-
-  totalAmount() async {
-    Map<String, int> map1 = {"inDebit": totalDebit, "inCredit": totalCredit};
-    allUsersListRef.doc(widget.name).updateData(map1);
-
-    print("totalAmount Funtion Called");
   }
 
   debitStreamBuilder() {
@@ -334,7 +313,45 @@ class _ParticularUserScreenState extends State<ParticularUserScreen> {
                   letterSpacing: 1.1, color: Colors.white, fontSize: 11),
             );
           }
-          print(dc.data());
+          // print(dc.data());
+        }
+        return null;
+      },
+    );
+  }
+
+  overAllDebitAndCreditAmount() {
+    return StreamBuilder(
+      stream: allUsersListRef.snapshots(),
+      builder: (context, snap) {
+        if (!snap.hasData) {
+          return Text("Loading");
+        }
+        List<DocumentSnapshot> doc = snap.data.documents;
+        for (DocumentSnapshot dc in doc) {
+          if (widget.name == dc["name"]) {
+            int total = 0;
+            int a = dc["inCredit"];
+            int b = dc["inDebit"];
+            int c = a - b;
+            //print("**************************** $a ************************************");
+            //print("**************************** $b ************************************");
+            if (a > b) {
+              //print("************************* condition matched 1: **************************");
+              return Text(
+                "\$ $c Rs",
+                style: GoogleFonts.muli(
+                    letterSpacing: 1, fontSize: 20, color: Colors.green),
+              );
+            } else {
+              //print("************************* condition matched 2: **************************");
+              return Text(
+                "\$ $c Rs",
+                style: GoogleFonts.muli(
+                    letterSpacing: 1, fontSize: 20, color: Colors.red),
+              );
+            }
+          }
         }
         return null;
       },

@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "252649280239-iii7nqai7koqmlsv2mvh20si09ifaa6f.apps.googleusercontent.com",
+          "client_id": "252649280239-gsr39n4mo6s6mn7b1tthvtq1f194ppkh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "vip.hari.ledgerapp",
-            "certificate_hash": "105eea66f2bd39525ba29f76d1ed158b641d5807"
+            "certificate_hash": "bbf2fdd2ef271ea8b2f872242e5514232f4e7e54"
           }
         },
         {

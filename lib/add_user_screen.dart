@@ -9,12 +9,9 @@ class CreateUser extends StatefulWidget {
 }
 
 class _CreateUserState extends State<CreateUser> {
-
-
   TextEditingController nameController = TextEditingController();
   TextEditingController mobileNumberController = TextEditingController();
   TextEditingController eMailController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +48,6 @@ class _CreateUserState extends State<CreateUser> {
                     fontWeight: FontWeight.w500),
               ),
               SizedBox(
-
                 height: 40,
               ),
               Container(
@@ -67,15 +63,12 @@ class _CreateUserState extends State<CreateUser> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
-                            color: Colors.black45
-                        ),
+                        borderSide: BorderSide(color: Colors.black45),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black45),
                         borderRadius: BorderRadius.circular(5.0),
-                      )
-                  ),
+                      )),
                 ),
               ),
               Container(
@@ -92,17 +85,13 @@ class _CreateUserState extends State<CreateUser> {
                       ),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
-
                           borderSide: BorderSide(
                             color: Colors.black45,
-
-                          )
-                      ),
+                          )),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black45),
                         borderRadius: BorderRadius.circular(5.0),
-                      )
-                  ),
+                      )),
                 ),
               ),
               Container(
@@ -118,55 +107,73 @@ class _CreateUserState extends State<CreateUser> {
                       ),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
-
                           borderSide: BorderSide(
                             color: Colors.black45,
-
-                          )
-                      ),
+                          )),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black45),
                         borderRadius: BorderRadius.circular(5.0),
-                      )
-                  ),
+                      )),
                 ),
               ),
-
               Container(
                 padding: EdgeInsets.symmetric(vertical: 15),
-
                 width: double.infinity,
-
                 child: FlatButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     height: 50,
                     onPressed: () async {
-                      print("add button is pressed");
+                      if (nameController.text == null ||
+                          nameController.text == "" &&
+                              mobileNumberController.text == null ||
+                          mobileNumberController.text == "" &&
+                              eMailController.text == null ||
+                          eMailController.text == "") {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Alert Message"),
+                                content: Text("Please fill All Details"),
+                                actions: [
+                                  FlatButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("ok"),
+                                  )
+                                ],
+                              );
+                            });
+                      } else {
+                        print("add button is pressed");
 
-                      Map<String, dynamic> map = {
-                        "eMail": eMailController.text,
-                        "inCredit": 0,
-                        "inDebit": 0,
-                        "mobileNumber": mobileNumberController.text,
-                        "name": nameController.text
-                      };
-                      await
-                      allUsersListRef.doc(nameController.text).setData(map);
-                       String name=nameController.text;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ParticularUserScreen(name:name,)),
-                      );
-                      nameController.clear();
-                      mobileNumberController.clear();
-                      eMailController.clear();
+                        Map<String, dynamic> map = {
+                          "eMail": eMailController.text,
+                          "inCredit": 0,
+                          "inDebit": 0,
+                          "mobileNumber": mobileNumberController.text,
+                          "name": nameController.text
+                        };
+                        await allUsersListRef
+                            .doc(nameController.text)
+                            .setData(map);
+                        String name = nameController.text;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ParticularUserScreen(
+                                    name: name,
+                                  )),
+                        );
+                        nameController.clear();
+                        mobileNumberController.clear();
+                        eMailController.clear();
+                      }
                     },
                     color: Colors.blue,
-                    child: Text("ADD")
-
-                ),
+                    child: Text("ADD")),
               )
             ],
           ),

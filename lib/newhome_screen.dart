@@ -104,23 +104,18 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                             child: Icon(
                               Icons.arrow_upward_rounded,
                               size: 50,
-                              color: Colors.white,
+                              color: Colors.green,
                             ),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
                                 border:
-                                    Border.all(color: Colors.white, width: 1)),
+                                    Border.all(color: Colors.green, width: 3),),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            '\$100  \nCredit',
-                            style: GoogleFonts.muli(
-                                color: Colors.white,
-                                fontSize: 14,
-                                letterSpacing: 1.1),
-                          ),
+
+                          totalCreditStream(),
                         ],
                       ),
                       Row(
@@ -129,23 +124,16 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
                             child: Icon(
                               Icons.arrow_downward,
                               size: 50,
-                              color: Colors.white,
+                              color: Colors.red,
                             ),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
-                                border:
-                                    Border.all(color: Colors.white, width: 1)),
+                                border: Border.all(color: Colors.red, width: 3)),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            '\$100 \nDebit',
-                            style: GoogleFonts.muli(
-                                color: Colors.white,
-                                fontSize: 14,
-                                letterSpacing: 1.1),
-                          ),
+                          totalDebitStream(),
                         ],
                       ),
                     ],
@@ -175,7 +163,7 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
 
                     });
               },
-            )
+            ),
 
 
           ],
@@ -211,18 +199,80 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   elevation: 12,
-      //   backgroundColor: Colors.blue,
-      //   child: Icon(
-      //     Icons.add,
-      //     color: Colors.white,
-      //   ),
-      //   onPressed: () {
-      //     Navigator.push(context,
-      //         new MaterialPageRoute(builder: (context) => CreateUser()));
-      //   },
-      // ),
     );
   }
+
+
+  totalCreditStream()
+  {
+
+    return StreamBuilder(
+      stream:  allUsersListRef.snapshots(),
+      builder: (context,snap)
+      {
+
+        if(!snap.hasData)
+          {
+            return Text("Loading");
+          }
+        List<DocumentSnapshot> doc=snap.data.documents;
+        int total=0;
+        for(DocumentSnapshot d in doc)
+          {
+            total=total+d["inCredit"];
+          }
+        //List<DocumentSnapshot
+        return Text(
+          '\$ $total  \nCredit',
+          style: GoogleFonts.muli(
+              color: Colors.white,
+              fontSize: 14,
+              letterSpacing: 1.1),
+        );
+
+      },
+
+
+
+    );
+
+
+  }
+  totalDebitStream()
+  {
+
+    return StreamBuilder(
+      stream:  allUsersListRef.snapshots(),
+      builder: (context,snap)
+      {
+
+        if(!snap.hasData)
+        {
+          return Text("Loading");
+        }
+        List<DocumentSnapshot> doc=snap.data.documents;
+        int total=0;
+        for(DocumentSnapshot d in doc)
+        {
+          total=total+d["inDebit"];
+        }
+        //List<DocumentSnapshot
+        return Text(
+          '\$ $total  \nDebit',
+          style: GoogleFonts.muli(
+              color: Colors.white,
+              fontSize: 14,
+              letterSpacing: 1.1),
+        );
+
+      },
+
+
+
+    );
+
+
+  }
+
+
 }
