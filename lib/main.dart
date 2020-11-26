@@ -4,12 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ledgerapp/oldtask/getit_locaters.dart';
 import 'package:ledgerapp/login_screen.dart';
+import 'package:ledgerapp/tempscreen.dart';
 
 void main() async
 {
 
   WidgetsFlutterBinding.ensureInitialized();
-  setup();
  await Firebase.initializeApp();
   runApp(LedgerTask());
 }
@@ -18,7 +18,14 @@ void main() async
 class LedgerTask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: LoginScreen(),);
+    return MaterialApp(home: DemoScreen(),);
   }
 }
+
+
+
+
+
+
+
 

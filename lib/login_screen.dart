@@ -83,8 +83,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     //return isAuth ? DemoScreen() :unAuthScreen();
-    //return isAuth ? NewHomeScreen() : unAuthScreen();
-    return NewHomeScreen();
+    return isAuth ? NewHomeScreen() : unAuthScreen();
+   // return NewHomeScreen();
 
   }
 
